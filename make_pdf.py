@@ -8,7 +8,7 @@ class PDF(FPDF):
         self.set_text_color(100, 100, 100)
         self.cell(0, 10, "Aspiring Marketing & Media Professional", border=False, align="C", new_x="LMARGIN", new_y="NEXT")
         self.set_font("helvetica", "", 10)
-        self.cell(0, 6, "mahishiaroraa@gmail.com | +91 95869 78000 | Instagram: @mahishiaroraa_", border=False, align="C", new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, 6, "mahishiaroraa@gmail.com | +91 95869 78000 | LinkedIn: in/mahishi-arora-0662b8378 | Instagram: @mahishiaroraa_", border=False, align="C", new_x="LMARGIN", new_y="NEXT")
         self.ln(5)
         self.set_draw_color(200, 200, 200)
         self.line(10, self.get_y(), 200, self.get_y())
@@ -96,7 +96,7 @@ pdf.section_title("EDUCATION")
 pdf.experience_item(
     "B.A. in Multimedia & Mass Communication",
     "UPG College of Commerce and Arts, Mumbai",
-    "2025 - 2029 (Expected)",
+    "2025 - 2028 (Expected)",
     []
 )
 pdf.experience_item(
