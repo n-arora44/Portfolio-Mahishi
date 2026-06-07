@@ -53,33 +53,38 @@ function highlightActiveSection() {
 window.addEventListener('scroll', highlightActiveSection);
 highlightActiveSection(); // Initial call
 
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animation
+// Modern Scroll-Driven Animations with Fallback
 document.addEventListener('DOMContentLoaded', () => {
+    const supportsScrollTimeline = CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)');
     const animatedElements = document.querySelectorAll(
-        '.skill-item, .timeline-item, .project-card, .education-item'
+        '.skill-item, .timeline-item, .project-card, .education-item, .contact-link'
     );
     
-    animatedElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(el);
-    });
+    if (!supportsScrollTimeline) {
+        // Fallback: Continuous IntersectionObserver for smooth scrubbed animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const ratio = entry.intersectionRatio;
+                // Reveal fully when 30% of the element is visible
+                const progress = Math.min(ratio / 0.3, 1);
+                
+                entry.target.style.opacity = progress;
+                entry.target.style.transform = `translateY(${(1 - progress) * 60}px) scale(${0.9 + progress * 0.1})`;
+            });
+        }, { 
+            threshold: Array.from({length: 101}, (_, i) => i / 100),
+            rootMargin: '0px 0px -5% 0px'
+        });
+
+        animatedElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.willChange = 'opacity, transform';
+            observer.observe(el);
+        });
+    } else {
+        // Native CSS scroll timeline
+        animatedElements.forEach(el => el.classList.add('scroll-reveal-native'));
+    }
 });
 
 // Add active state styling for nav links

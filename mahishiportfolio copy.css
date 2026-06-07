@@ -568,6 +568,21 @@ body {
     color: var(--light-grey);
 }
 
+.education-score {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 18px;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: var(--turquoise-light);
+    background: rgba(64, 224, 208, 0.1);
+    border: 1px solid rgba(64, 224, 208, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(64, 224, 208, 0.15);
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0 0 8px rgba(184, 245, 232, 0.3);
+}
+
 /* Contact Section */
 .contact-content {
     text-align: center;
@@ -756,6 +771,63 @@ body {
 
     .contact-icon {
         font-size: 2em;
+    }
+}
+
+/* --- DYNAMISM ENHANCEMENTS --- */
+
+@keyframes heroEntrance {
+    0% { opacity: 0; transform: translateY(30px) scale(0.9); filter: blur(10px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.hero-title {
+    animation: heroEntrance 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, titlePulse 5s ease-in-out infinite 1.2s;
+}
+
+.hero-subtitle {
+    opacity: 0;
+    animation: heroEntrance 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+}
+
+.hero-description {
+    opacity: 0;
+    animation: heroEntrance 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+}
+
+.project-card:hover {
+    transform: translateY(-8px) scale(1.03) rotateX(2deg);
+    perspective: 1000px;
+}
+
+/* Modern Scroll-Driven Animations */
+@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+    @keyframes dynamic-reveal {
+        from {
+            opacity: 0;
+            transform: translateY(80px) scale(0.85) rotateX(-15deg);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+        }
+    }
+
+    .scroll-reveal-native {
+        animation: dynamic-reveal auto linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 35%;
+        perspective: 1000px;
+    }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal-native, .skill-item, .timeline-item, .project-card, .education-item, .contact-link {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
     }
 }
 
